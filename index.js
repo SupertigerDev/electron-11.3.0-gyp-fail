@@ -1,5 +1,27 @@
-// npm run dist-win - works fine
-// npm i extract-file-icon
-// npm run dist-win - node-gyp error
-// npm i electron@11.2.3
-// npm run dist-win - works fine
+const { app, BrowserWindow } = require('electron')
+
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+
+  win.loadURL("https://google.com")
+}
+
+app.whenReady().then(createWindow)
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
